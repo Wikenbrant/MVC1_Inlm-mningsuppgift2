@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Inlmämningsuppgift2.Models
+﻿namespace Inlmämningsuppgift2.Models.Entities
 {
     public partial class MatrattProdukt
     {

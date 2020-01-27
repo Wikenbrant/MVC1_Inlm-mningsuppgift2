@@ -1,9 +1,10 @@
 ﻿using Inlmämningsuppgift2.Models;
+using Inlmämningsuppgift2.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Inlmämningsuppgift2.Data
 {
-    public class TomasosContext : DbContext
+    public partial class TomasosContext : DbContext
     {
         public TomasosContext(DbContextOptions<TomasosContext> options)
             : base(options)

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Inlmämningsuppgift2.Models;
+using Inlmämningsuppgift2.Models.Entities;
 
 namespace Inlmämningsuppgift2.Controllers
 {
