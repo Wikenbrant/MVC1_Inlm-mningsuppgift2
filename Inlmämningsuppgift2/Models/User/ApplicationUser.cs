@@ -6,7 +6,14 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Inlmämningsuppgift2.Models.User
 {
+    public enum CustomerType
+    {
+        None,
+        Regular,
+        Premium
+    }
     public class ApplicationUser : IdentityUser
     {
+        public CustomerType CustomerType { get; set; }
     }
 }

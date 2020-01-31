@@ -29,11 +29,13 @@ namespace Inlmämningsuppgift2
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("Identity"))
-                );
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Identity")));
+            services.AddIdentity<ApplicationUser,IdentityRole>(options =>
+                {
+
+                })
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             services.AddDbContext<TomasosContext>(
                     options => options.UseSqlServer(Configuration.GetConnectionString("Default"))

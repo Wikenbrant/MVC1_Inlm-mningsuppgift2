@@ -7,20 +7,24 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Inlmämningsuppgift2.Models;
 using Inlmämningsuppgift2.Models.Entities;
+using Inlmämningsuppgift2.Models.User;
+using Microsoft.AspNetCore.Identity;
 
 namespace Inlmämningsuppgift2.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger,RoleManager<IdentityRole> roleManager)
         {
             _logger = logger;
+            _roleManager = roleManager;
         }
 
         public IActionResult Index()
-        {
+        { 
             return View();
         }
 
