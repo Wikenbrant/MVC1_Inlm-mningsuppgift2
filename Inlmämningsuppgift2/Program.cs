@@ -40,15 +40,26 @@ namespace Inlmämningsuppgift2
 
                 var context = services.GetRequiredService<ApplicationDbContext>();
                 var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+                var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
                 await context.Database.EnsureCreatedAsync();
 
                 if (!context.Users.Any())
                 {
-                    await userManager.CreateAsync(new ApplicationUser
+                    var adminUser = new ApplicationUser
+                        {UserName = configuration.GetSection("Admin").GetSection("Username").Value};
+                    await userManager.CreateAsync(adminUser, configuration.GetSection("Admin").GetSection("Password").Value);
+
+                    if (!await roleManager.RoleExistsAsync("Admin"))
                     {
-                        UserName = configuration.GetSection("Admin").GetSection("Username").Value
-                    }, configuration.GetSection("Admin").GetSection("Password").Value);
+                        await roleManager.CreateAsync(new IdentityRole("Admin"));
+                    }
+                    if (!await roleManager.RoleExistsAsync("Customer"))
+                    {
+                        await roleManager.CreateAsync(new IdentityRole("Customer"));
+                    }
+
+                    await userManager.AddToRoleAsync(adminUser, "Admin");
                 }
             }
         }

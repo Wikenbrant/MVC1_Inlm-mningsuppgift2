@@ -41,7 +41,6 @@ namespace Inlmämningsuppgift2
                     options => options.UseSqlServer(Configuration.GetConnectionString("Default"))
                 );
             services.AddControllersWithViews();
-            services.AddRazorPages();
 
 
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
@@ -74,7 +73,6 @@ namespace Inlmämningsuppgift2
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
             });
         }
     }
