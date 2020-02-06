@@ -19,7 +19,7 @@ namespace Inlmämningsuppgift2
         {
             var host = CreateHostBuilder(args).Build();
 
-            await EnsureAdminInDatabase(host);
+            await EnsureRolesAndAdminInDatabase(host);
             
             host.Run();
         }
@@ -31,36 +31,34 @@ namespace Inlmämningsuppgift2
                     webBuilder.UseStartup<Startup>();
                 });
 
-        private static async Task EnsureAdminInDatabase(IHost host)
+        private static async Task EnsureRolesAndAdminInDatabase(IHost host)
         {
-            using (var scope = host.Services.CreateScope())
+            using var scope = host.Services.CreateScope();
+            var services = scope.ServiceProvider;
+            var configuration = services.GetRequiredService<IConfiguration>();
+
+            var context = services.GetRequiredService<ApplicationDbContext>();
+            var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+            var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+            await context.Database.EnsureCreatedAsync();
+
+            if (!context.Users.Any())
             {
-                var services = scope.ServiceProvider;
-                var configuration = services.GetRequiredService<IConfiguration>();
+                var adminUser = new ApplicationUser
+                { UserName = configuration.GetSection("Admin").GetSection("Username").Value };
+                await userManager.CreateAsync(adminUser, configuration.GetSection("Admin").GetSection("Password").Value);
 
-                var context = services.GetRequiredService<ApplicationDbContext>();
-                var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-                var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-
-                await context.Database.EnsureCreatedAsync();
-
-                if (!context.Users.Any())
+                if (!await roleManager.RoleExistsAsync("Admin"))
                 {
-                    var adminUser = new ApplicationUser
-                        {UserName = configuration.GetSection("Admin").GetSection("Username").Value};
-                    await userManager.CreateAsync(adminUser, configuration.GetSection("Admin").GetSection("Password").Value);
-
-                    if (!await roleManager.RoleExistsAsync("Admin"))
-                    {
-                        await roleManager.CreateAsync(new IdentityRole("Admin"));
-                    }
-                    if (!await roleManager.RoleExistsAsync("Customer"))
-                    {
-                        await roleManager.CreateAsync(new IdentityRole("Customer"));
-                    }
-
-                    await userManager.AddToRoleAsync(adminUser, "Admin");
+                    await roleManager.CreateAsync(new IdentityRole("Admin"));
                 }
+                if (!await roleManager.RoleExistsAsync("Customer"))
+                {
+                    await roleManager.CreateAsync(new IdentityRole("Customer"));
+                }
+
+                await userManager.AddToRoleAsync(adminUser, "Admin");
             }
         }
     }

@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>aspnet-Inlmämningsuppgift2-11843208-5C06-409D-BC8E-A4A24DE3DFA4</UserSecretsId>
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
 
 
