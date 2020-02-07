@@ -8,10 +8,13 @@ using Microsoft.Extensions.Logging;
 using Inlmämningsuppgift2.Models;
 using Inlmämningsuppgift2.Models.Entities;
 using Inlmämningsuppgift2.Models.User;
+using Inlmämningsuppgift2.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
 namespace Inlmämningsuppgift2.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -23,8 +26,8 @@ namespace Inlmämningsuppgift2.Controllers
             _roleManager = roleManager;
         }
 
-        public IActionResult Index()
-        { 
+        public async Task<IActionResult> Index()
+        {
             return View();
         }
 
