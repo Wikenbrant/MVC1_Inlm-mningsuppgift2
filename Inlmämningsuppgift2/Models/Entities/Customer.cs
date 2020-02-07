@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Inlmämningsuppgift2.Models.Entities
 {
@@ -10,12 +12,25 @@ namespace Inlmämningsuppgift2.Models.Entities
         }
 
         public int CustomerId { get; set; }
+        [Required]
+        [DisplayName("Namn")]
         public string Name { get; set; }
+        [Required]
+        [DisplayName("Address")]
         public string Adress { get; set; }
+        [Required]
+        [DisplayName("Postnummer")]
         public string ZipCode { get; set; }
+        [Required]
+        [DisplayName("Postort")]
         public string City { get; set; }
-        public string Email { get; set; }
+        [Required]
+        [DisplayName("Telefonnummer")]
         public string Phone { get; set; }
+
+        [Required]
+        [UIHint("email")]
+        public string Email { get; set; }
 
         //public string Username { get; set; }
         //public string Password { get; set; }

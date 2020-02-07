@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Inlmämningsuppgift2.Data.Migrations
 {
     [DbContext(typeof(ApplicationIdentityDbContext))]
-    [Migration("20200131092528_addedRole")]
-    partial class addedRole
+    [Migration("20200207101557_Linking")]
+    partial class Linking
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,6 +32,9 @@ namespace Inlmämningsuppgift2.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
 
                     b.Property<int>("CustomerType")
                         .HasColumnType("int");

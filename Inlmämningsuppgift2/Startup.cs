@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Inlmämningsuppgift2.Data;
+using Inlmämningsuppgift2.Models.Cart;
 using Inlmämningsuppgift2.Models.User;
 using Inlmämningsuppgift2.Repository;
 using Microsoft.Extensions.Configuration;
@@ -29,21 +30,24 @@ namespace Inlmämningsuppgift2
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Identity")));
+            services.AddDbContext<ApplicationIdentityDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Identity")));
             services.AddIdentity<ApplicationUser,IdentityRole>(options =>
                 {
 
                 })
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddEntityFrameworkStores<ApplicationIdentityDbContext>()
                 .AddDefaultTokenProviders();
 
             services.AddDbContext<TomasosContext>(
                     options => options.UseSqlServer(Configuration.GetConnectionString("Default"))
                 );
-            services.AddControllersWithViews();
 
 
+            services.AddScoped(SessionCart.GetCart);
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+
+            services.AddSession();
+            services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,7 +71,7 @@ namespace Inlmämningsuppgift2
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseSession();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

@@ -37,7 +37,7 @@ namespace Inlmämningsuppgift2
             var services = scope.ServiceProvider;
             var configuration = services.GetRequiredService<IConfiguration>();
 
-            var context = services.GetRequiredService<ApplicationDbContext>();
+            var context = services.GetRequiredService<ApplicationIdentityDbContext>();
             var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
             var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
@@ -46,7 +46,10 @@ namespace Inlmämningsuppgift2
             if (!context.Users.Any())
             {
                 var adminUser = new ApplicationUser
-                { UserName = configuration.GetSection("Admin").GetSection("Username").Value };
+                {
+                    UserName = configuration.GetSection("Admin").GetSection("Username").Value,
+                    Email = configuration.GetSection("Admin").GetSection("Email").Value,
+                };
                 await userManager.CreateAsync(adminUser, configuration.GetSection("Admin").GetSection("Password").Value);
 
                 if (!await roleManager.RoleExistsAsync("Admin"))

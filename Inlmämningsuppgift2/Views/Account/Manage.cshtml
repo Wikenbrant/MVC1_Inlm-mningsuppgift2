@@ -1,2 +1,53 @@
-﻿
-<h2>title</h2>
+﻿@model ManageViewModel
+
+    <form asp-action="Manage" method="post">
+        <div class="form-group">
+            <label asp-for="Customer.Name"></label>
+            <input class="form-control" asp-for="Customer.Name" />
+            <span asp-validation-for="Customer.Name"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Customer.Adress"></label>
+            <input class="form-control" asp-for="Customer.Adress" />
+            <span asp-validation-for="Customer.Adress"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Customer.ZipCode"></label>
+            <input class="form-control" asp-for="Customer.ZipCode" />
+            <span asp-validation-for="Customer.ZipCode"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Customer.City"></label>
+            <input class="form-control" asp-for="Customer.City" />
+            <span asp-validation-for="Customer.City"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Customer.Phone"></label>
+            <input class="form-control" asp-for="Customer.Phone" />
+            <span asp-validation-for="Customer.Phone"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Customer.Email"></label>
+            <input class="form-control" asp-for="Customer.Email" />
+            <span asp-validation-for="Customer.Email"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password"></label>
+            <input class="form-control" asp-for="Password" />
+            <span asp-validation-for="Password"></span>
+        </div>
+        <div class="form-group">
+            <label  asp-for="NewPassword"></label>
+            <input class="form-control" asp-for="NewPassword" />
+            <span asp-validation-for="NewPassword"></span>
+        </div>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <a class="btn btn-secondary" asp-controller="Home" asp-action="Index">Avbryt</a>
+            <input class="btn btn-primary" type="submit" value="Updatera" />
+        </div>
+    </form>
+
+
+
+<partial name="_ValidationScriptsPartial" />
