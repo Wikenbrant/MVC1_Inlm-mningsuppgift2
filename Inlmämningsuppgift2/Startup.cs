@@ -12,6 +12,7 @@ using Inlmämningsuppgift2.Data;
 using Inlmämningsuppgift2.Models.Cart;
 using Inlmämningsuppgift2.Models.User;
 using Inlmämningsuppgift2.Repository;
+using Inlmämningsuppgift2.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -45,7 +46,9 @@ namespace Inlmämningsuppgift2
 
             services.AddScoped(SessionCart.GetCart);
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+            services.AddScoped<IAccountService, AccountService>();
 
+            services.AddMemoryCache();
             services.AddSession();
             services.AddControllersWithViews();
         }

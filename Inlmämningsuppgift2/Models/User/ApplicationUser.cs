@@ -15,6 +15,7 @@ namespace Inlmämningsuppgift2.Models.User
     public class ApplicationUser : IdentityUser
     {
         public CustomerType CustomerType { get; set; }
+        public int BonusPoints { get; set; }
         public int CustomerId { get; set; }
     }
 }

@@ -14,16 +14,11 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Inlmämningsuppgift2.Controllers
 {
-    [Authorize]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public HomeController(ILogger<HomeController> logger,RoleManager<IdentityRole> roleManager)
+        public HomeController()
         {
-            _logger = logger;
-            _roleManager = roleManager;
         }
 
         public IActionResult Index()
