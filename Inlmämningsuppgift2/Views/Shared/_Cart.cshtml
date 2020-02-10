@@ -1,11 +1,22 @@
-﻿@using Inlmämningsuppgift2.Models.User
+﻿@using Inlmämningsuppgift2.Models.Cart
+@using Inlmämningsuppgift2.Models.User
+@using Inlmämningsuppgift2.Repository
+@using Inlmämningsuppgift2.Services
 @using Microsoft.AspNetCore.Identity
-@model Inlmämningsuppgift2.Models.Cart.Cart
 @inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject Cart Cart
 
 @if (SignInManager.IsSignedIn(User))
 {
+    foreach (var line in Cart.CartLines)
+    {
+        <div>
+            @line.FoodItem.FoodItemName
+            @line.FoodItem.Price * @line.Quantity = @(line.FoodItem.Price * line.Quantity)
+        </div>
+    }
     <div>
-        Cart
+        @Cart.CalcTotal(await UserManager.GetUserAsync(User)).Result
     </div>
 }

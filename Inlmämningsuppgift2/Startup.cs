@@ -46,12 +46,17 @@ namespace Inlmämningsuppgift2
 
             services.AddScoped(SessionCart.GetCart);
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
-            services.AddScoped<IAccountService, AccountService>();
+            
             services.AddScoped<ICartService, CartService>();
+
+            services.AddAuthentication();
+            services.AddAuthorization();
 
             services.AddMemoryCache();
             services.AddSession();
             services.AddControllersWithViews();
+
+            services.AddScoped<IAccountService, AccountService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

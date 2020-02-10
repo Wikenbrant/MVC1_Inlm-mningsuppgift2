@@ -15,12 +15,12 @@ namespace Inlmämningsuppgift2.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private readonly AccountService _accountService;
+        private readonly IAccountService _accountService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IRepository<Customer> _customerRepository;
 
         public AccountController(
-            AccountService accountService,
+            IAccountService accountService,
             UserManager<ApplicationUser> userManager,
             IRepository<Customer> customerRepository)
         {
