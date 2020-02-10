@@ -24,22 +24,25 @@ namespace Inlmämningsuppgift2.Models.Cart
         [JsonIgnore]
         public ISession Session { get; set; }
 
-        public override void AddItem(int quantity, FoodItem foodItem)
+        public override Task<Cart> AddItem(int quantity, FoodItem foodItem)
         {
             base.AddItem(quantity, foodItem);
             Session.SetJson("Cart", this);
+            return Task.FromResult((Cart)this);
         }
 
-        public override void RemoveLine(FoodItem foodItem)
+        public override Task<Cart> RemoveLine(FoodItem foodItem)
         {
             base.RemoveLine(foodItem);
             Session.SetJson("Cart", this);
+            return Task.FromResult((Cart)this);
         }
 
-        public override void Clear()
+        public override Task<Cart> Clear()
         {
             base.Clear();
             Session.Remove("Cart");
+            return Task.FromResult((Cart)this);
         }
     }
 }

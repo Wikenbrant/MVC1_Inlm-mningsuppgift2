@@ -15,13 +15,13 @@ namespace Inlmämningsuppgift2.Services
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly PasswordValidator<ApplicationUser> _passwordValidator;
+        private readonly IPasswordValidator<ApplicationUser> _passwordValidator;
         private readonly IRepository<Customer> _customerRepository;
 
         public AccountService(
             SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
-            PasswordValidator<ApplicationUser> passwordValidator,
+            IPasswordValidator<ApplicationUser> passwordValidator,
             IRepository<Customer> customerRepository)
         {
             _signInManager = signInManager;

@@ -47,6 +47,7 @@ namespace Inlmämningsuppgift2
             services.AddScoped(SessionCart.GetCart);
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<ICartService, CartService>();
 
             services.AddMemoryCache();
             services.AddSession();

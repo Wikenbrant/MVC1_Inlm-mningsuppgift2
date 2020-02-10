@@ -6,6 +6,7 @@ using Inlmämningsuppgift2.Data;
 using Inlmämningsuppgift2.Models.User;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -42,6 +43,7 @@ namespace Inlmämningsuppgift2
             var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
             await context.Database.EnsureCreatedAsync();
+            await context.Database.MigrateAsync();
 
             if (!context.Users.Any())
             {

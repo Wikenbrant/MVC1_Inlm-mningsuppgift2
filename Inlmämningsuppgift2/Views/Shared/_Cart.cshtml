@@ -1,0 +1,11 @@
+﻿@using Inlmämningsuppgift2.Models.User
+@using Microsoft.AspNetCore.Identity
+@model Inlmämningsuppgift2.Models.Cart.Cart
+@inject SignInManager<ApplicationUser> SignInManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div>
+        Cart
+    </div>
+}
