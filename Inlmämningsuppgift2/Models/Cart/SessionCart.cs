@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Inlmämningsuppgift2.Infrastructure;
+using Inlmämningsuppgift2.Infrastructure.Extensions;
 using Inlmämningsuppgift2.Models.Entities;
 using Inlmämningsuppgift2.Repository;
 using Microsoft.AspNetCore.Http;

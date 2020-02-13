@@ -16,6 +16,7 @@ namespace Inlmämningsuppgift2.Repository
         Task Remove(T entity);
 
         Task<IEnumerable<T>> GetAll();
+        Task<IEnumerable<T>> GetAll(Expression<Func<T, object>> navigationPropertyPath);
         Task<IEnumerable<T>> GetWhere(Expression<Func<T, bool>> predicate);
 
         Task<int> CountAll();

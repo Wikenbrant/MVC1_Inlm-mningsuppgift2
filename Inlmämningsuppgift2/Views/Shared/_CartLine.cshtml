@@ -1,47 +1,49 @@
 ﻿@model CartLine
 
-<div>
-    <div>
-        @Model.FoodItem.FoodItemName
-    </div>
-    <div>
-        @Model.FoodItem.Price
-    </div>
-    <div>
-        <form asp-controller="Cart" asp-action="AddItem"asp-route-foodItemId="@Model.FoodItem.FoodItemId" 
+<tr>
+    <td>
+        <form asp-controller="Cart" asp-action="AddItem" asp-route-foodItemId="@Model.FoodItem.FoodItemId"
               data-ajax="true"
               data-ajax-method="POST"
               data-ajax-mode="replace"
               data-ajax-update="#cart">
-            <input type="hidden" asp-for="FoodItem.FoodItemId"/>
+            <input type="hidden" asp-for="FoodItem.FoodItemId" />
             <div class="input-group">
+                <span class="text-left">Name: @Model.FoodItem.FoodItemName</span>
+            </div>
+            <div class="input-group">
+                <span class="text-left">Price: @Model.FoodItem.Price.ToString("C")</span>
+            </div>
+
+            <label asp-for="Quantity"></label>
+            <div class="input-group m-2" style="width: 200px;">
                 <div class="input-group-prepend">
-                    <a class="btn btn-secondary" 
-                       asp-controller="Cart" 
-                       asp-action="AddItem" 
-                       asp-route-foodItemId="@Model.FoodItem.FoodItemId" 
+                    <a class="btn"
+                       asp-controller="Cart"
+                       asp-action="AddItem"
+                       asp-route-foodItemId="@Model.FoodItem.FoodItemId"
                        asp-route-quantity="@(Model.Quantity - 1)"
                        data-ajax="true"
                        data-ajax-method="POST"
                        data-ajax-mode="replace"
                        data-ajax-update="#cart">
-                        -
+                        <i class="fa fa-minus"></i>
                     </a>
                 </div>
 
-                <input id="@Model.FoodItem.FoodItemId" class="form-control" asp-for="Quantity"/>
+                <input class="form-control" asp-for="Quantity" />
 
                 <div class="input-group-append">
-                    <a class="btn btn-secondary" 
-                       asp-controller="Cart" 
-                       asp-action="AddItem" 
-                       asp-route-foodItemId="@Model.FoodItem.FoodItemId" 
+                    <a class="btn"
+                       asp-controller="Cart"
+                       asp-action="AddItem"
+                       asp-route-foodItemId="@Model.FoodItem.FoodItemId"
                        asp-route-quantity="@(Model.Quantity + 1)"
                        data-ajax="true"
                        data-ajax-method="POST"
                        data-ajax-mode="replace"
                        data-ajax-update="#cart">
-                        +
+                        <i class="fa fa-plus"></i>
                     </a>
                     <a class="btn btn-danger"
                        asp-controller="Cart"
@@ -51,11 +53,11 @@
                        data-ajax-method="POST"
                        data-ajax-mode="replace"
                        data-ajax-update="#cart">
-                        x
+                        <i class="fa fa-trash"></i>
                     </a>
                 </div>
             </div>
 
         </form>
-    </div>
-</div>
+    </td>
+</tr>

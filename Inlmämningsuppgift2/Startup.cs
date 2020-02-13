@@ -33,9 +33,10 @@ namespace Inlmämningsuppgift2
         {
             services.AddDbContext<ApplicationIdentityDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Identity")));
             services.AddIdentity<ApplicationUser,IdentityRole>(options =>
-                {
-
-                })
+                    {
+                        options.User.AllowedUserNameCharacters =
+                            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+ ";
+                    })
                 .AddEntityFrameworkStores<ApplicationIdentityDbContext>()
                 .AddDefaultTokenProviders();
 

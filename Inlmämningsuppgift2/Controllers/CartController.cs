@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Inlmämningsuppgift2.Models.Cart;
 using Inlmämningsuppgift2.Models.Entities;
-using Inlmämningsuppgift2.Models.Requests;
 using Inlmämningsuppgift2.Repository;
 using Inlmämningsuppgift2.Services;
 using Microsoft.AspNetCore.Mvc;

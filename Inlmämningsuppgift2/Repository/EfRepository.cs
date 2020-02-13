@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Inlmämningsuppgift2.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace Inlmämningsuppgift2.Repository
 {
@@ -43,7 +44,10 @@ namespace Inlmämningsuppgift2.Repository
         {
             return await _context.Set<T>().ToListAsync();
         }
-
+        public async Task<IEnumerable<T>> GetAll(Expression<Func<T, object>> navigationPropertyPath)
+        {
+            return await _context.Set<T>().Include(navigationPropertyPath).ToListAsync();
+        }
         public async Task<IEnumerable<T>> GetWhere(Expression<Func<T, bool>> predicate)
         {
             return await _context.Set<T>().Where(predicate).ToListAsync();

@@ -10,16 +10,29 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <div id="cart">
-        @foreach (var line in Cart.CartLines)
-        {
-            if (line.Quantity>0)
-            {
-                <partial name="_CartLine" model="line" />
-            }
-        }
-        <div>
-            @Cart.CalcTotal(await UserManager.GetUserAsync(User))
-        </div>
+        <table class="table">
+            <tbody>
+                @foreach (var line in Cart.CartLines)
+                {
+                    if (line.Quantity > 0)
+                    {
+                        <tr>
+                            <partial name="_CartLine" model="line" />
+                        </tr>
+                    }
+                }
+                <tr>
+                    <td colspan="5">
+                        <form class="mx-auto" method="post">
+                            <div class="input-group mb-3">
+                                <span>Total: @Cart.CalcTotal(await UserManager.GetUserAsync(User)).ToString("C")</span>
+                            </div>
+                            <input class="btn btn-success" type="submit" value="Checkout" />
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-    
+
 }

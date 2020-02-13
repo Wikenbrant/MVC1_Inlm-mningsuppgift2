@@ -16,14 +16,21 @@ namespace Inlmämningsuppgift2.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IRepository<FoodItem> _repository;
 
-        public HomeController()
+        public HomeController(IRepository<FoodItem> repository)
         {
+            _repository = repository;
         }
 
         public IActionResult Index()
         {
             return View();
+        }
+
+        public async Task<IActionResult> Pizzas()
+        {
+            return View(await _repository.GetAll(i => i.FoodItemProducts));
         }
 
         public IActionResult Privacy()

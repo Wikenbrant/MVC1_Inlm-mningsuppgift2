@@ -1,0 +1,71 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore
+@model IEnumerable<ApplicationUser>
+@inject UserManager<ApplicationUser> UserManager
+@inject RoleManager<IdentityRole> RoleManager
+
+@foreach (var role in await RoleManager.Roles.ToListAsync())
+{
+    <table class="table">
+        <thead>
+            <tr class="table">
+                <td colspan="@(role.Name.Equals("Customer",StringComparison.CurrentCultureIgnoreCase)?"7":"4")">Role: @role.Name</td>
+            </tr>
+        <tr>
+            <td>UserId</td>
+            <td>Name</td>
+            <td>Email</td>
+            @if (role.Name.Equals("Customer", StringComparison.CurrentCultureIgnoreCase))
+            {
+                <td>CustomerId</td>
+                <td>Customer Type</td>
+                <td>Bonus points</td>
+            }
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var user in await UserManager.GetUsersInRoleAsync(role.Name))
+        {
+            <tr>
+                <td>@user.Id</td>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                @if (role.Name.Equals("Customer", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    <td>@user.CustomerId</td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @user.CustomerType
+                            </button>
+                            <div class="dropdown-menu">
+                                @foreach (var customerType in Enum.GetNames(typeof(CustomerType)))
+                                {
+                                    <form asp-action="ChangeCustomerType" asp-route-userId="@user.Id" asp-route-customerType="@Enum.Parse(typeof(CustomerType),customerType)" method="post">
+                                        <input class="dropdown-item @(user.CustomerType.ToString().Equals(customerType, StringComparison.InvariantCultureIgnoreCase) ? "active" : "")" value="@customerType"  type="submit"/>
+                                    </form>
+                                }
+                            </div>
+                        </div>
+                    </td>
+                    <td>@user.BonusPoints</td>
+                }
+            <td>
+                @if (!await UserManager.IsInRoleAsync(user, "Admin"))
+                {
+                    <form asp-action="AddRole" asp-route-userId="@user.Id" asp-route-roleName="Admin" method="post">
+                        <input class="btn btn-success" type="submit" value="Add to admin" />
+                    </form>
+                }
+                @if (user.UserName != "Admin" && !role.Name.Equals("Customer", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    <form asp-action="RemoveRole" asp-route-userId="@user.Id" asp-route-roleName="@role.Name" method="post">
+                        <input class="btn btn-danger" type="submit" value="Remove" />
+                    </form>
+                }
+            </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

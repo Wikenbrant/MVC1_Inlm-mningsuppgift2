@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
-namespace Inlmämningsuppgift2.Infrastructure
+namespace Inlmämningsuppgift2.Infrastructure.Extensions
 {
     public static class SessionExtension
     {
