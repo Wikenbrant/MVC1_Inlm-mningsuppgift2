@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Inlmämningsuppgift2.Models.Entities;
 using Inlmämningsuppgift2.Models.User;
+using Inlmämningsuppgift2.Repository;
 
 namespace Inlmämningsuppgift2.Models.Cart
 {
@@ -18,32 +19,26 @@ namespace Inlmämningsuppgift2.Models.Cart
         }
         public ConcurrentBag<CartLine> CartLines { get; set; }
 
-        public virtual Task<Cart> AddItem(int quantity, FoodItem foodItem)
+        public virtual void SetLine(FoodItem item,int quantity=1)
         {
-            var line = CartLines.FirstOrDefault(l => l.FoodItem.FoodItemId == foodItem.FoodItemId);
+            if (quantity < 0) quantity = 0;
+            var line = CartLines.FirstOrDefault(l => l.FoodItem.FoodItemId == item.FoodItemId);
             if (line == null)
-                CartLines.Add(new CartLine {FoodItem = foodItem, Quantity = quantity});
+                CartLines.Add(new CartLine
+                {
+                    FoodItem = item, 
+                    Quantity = quantity
+                });
             else
-                line.Quantity += quantity;
-            return Task.FromResult(this);
+                line.Quantity = quantity;
         }
 
-        public virtual Task<Cart> RemoveLine(FoodItem foodItem)
-        {
-            if (CartLines.Any(l=>l.FoodItem.FoodItemId==foodItem.FoodItemId))
-            {
-                CartLines.FirstOrDefault(i => i.FoodItem.FoodItemId == foodItem.FoodItemId).Quantity = 0;
-            }
-            return Task.FromResult(this);
-        }
-
-        public virtual Task<Cart> Clear()
+        public virtual void Clear()
         {
             CartLines.Clear();
-            return Task.FromResult(this);
         }
 
-        public Task<int> CalcTotal(ApplicationUser user)
+        public int CalcTotal(ApplicationUser user)
         {
             var numberOfFreePizzas = 0;
             if (user.CustomerType != CustomerType.Premium) return Sum;
@@ -65,9 +60,9 @@ namespace Inlmämningsuppgift2.Models.Cart
                     if (numberOfFreePizzas < 0) numberOfFreePizzas = 0;
                 }
             }
-            return Task.FromResult(sum);
+            return sum;
         }
 
-        private Task<int> Sum => Task.FromResult(CartLines.Sum(l => l.FoodItem.Price * l.Quantity));
+        private int Sum => CartLines.Sum(l => l.FoodItem.Price * l.Quantity);
     }
 }

@@ -1,0 +1,61 @@
+﻿@model CartLine
+
+<div>
+    <div>
+        @Model.FoodItem.FoodItemName
+    </div>
+    <div>
+        @Model.FoodItem.Price
+    </div>
+    <div>
+        <form asp-controller="Cart" asp-action="AddItem"asp-route-foodItemId="@Model.FoodItem.FoodItemId" 
+              data-ajax="true"
+              data-ajax-method="POST"
+              data-ajax-mode="replace"
+              data-ajax-update="#cart">
+            <input type="hidden" asp-for="FoodItem.FoodItemId"/>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <a class="btn btn-secondary" 
+                       asp-controller="Cart" 
+                       asp-action="AddItem" 
+                       asp-route-foodItemId="@Model.FoodItem.FoodItemId" 
+                       asp-route-quantity="@(Model.Quantity - 1)"
+                       data-ajax="true"
+                       data-ajax-method="POST"
+                       data-ajax-mode="replace"
+                       data-ajax-update="#cart">
+                        -
+                    </a>
+                </div>
+
+                <input id="@Model.FoodItem.FoodItemId" class="form-control" asp-for="Quantity"/>
+
+                <div class="input-group-append">
+                    <a class="btn btn-secondary" 
+                       asp-controller="Cart" 
+                       asp-action="AddItem" 
+                       asp-route-foodItemId="@Model.FoodItem.FoodItemId" 
+                       asp-route-quantity="@(Model.Quantity + 1)"
+                       data-ajax="true"
+                       data-ajax-method="POST"
+                       data-ajax-mode="replace"
+                       data-ajax-update="#cart">
+                        +
+                    </a>
+                    <a class="btn btn-danger"
+                       asp-controller="Cart"
+                       asp-action="DeleteItem"
+                       asp-route-foodItemId="@Model.FoodItem.FoodItemId"
+                       data-ajax="true"
+                       data-ajax-method="POST"
+                       data-ajax-mode="replace"
+                       data-ajax-update="#cart">
+                        x
+                    </a>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>

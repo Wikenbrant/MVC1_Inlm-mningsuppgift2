@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Inlmämningsuppgift2.Infrastructure;
 using Inlmämningsuppgift2.Models.Entities;
+using Inlmämningsuppgift2.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -23,26 +24,16 @@ namespace Inlmämningsuppgift2.Models.Cart
 
         [JsonIgnore]
         public ISession Session { get; set; }
-
-        public override Task<Cart> AddItem(int quantity, FoodItem foodItem)
+        public override void SetLine(FoodItem foodItem, int quantity=1)
         {
-            base.AddItem(quantity, foodItem);
+            base.SetLine(foodItem, quantity);
             Session.SetJson("Cart", this);
-            return Task.FromResult((Cart)this);
         }
 
-        public override Task<Cart> RemoveLine(FoodItem foodItem)
-        {
-            base.RemoveLine(foodItem);
-            Session.SetJson("Cart", this);
-            return Task.FromResult((Cart)this);
-        }
-
-        public override Task<Cart> Clear()
+        public override void Clear()
         {
             base.Clear();
             Session.Remove("Cart");
-            return Task.FromResult((Cart)this);
         }
     }
 }

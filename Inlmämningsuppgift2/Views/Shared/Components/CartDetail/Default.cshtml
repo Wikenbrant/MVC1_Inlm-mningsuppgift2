@@ -9,14 +9,17 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    foreach (var line in Cart.CartLines)
-    {
+    <div id="cart">
+        @foreach (var line in Cart.CartLines)
+        {
+            if (line.Quantity>0)
+            {
+                <partial name="_CartLine" model="line" />
+            }
+        }
         <div>
-            @line.FoodItem.FoodItemName
-            @line.FoodItem.Price * @line.Quantity = @(line.FoodItem.Price * line.Quantity)
+            @Cart.CalcTotal(await UserManager.GetUserAsync(User))
         </div>
-    }
-    <div>
-        @Cart.CalcTotal(await UserManager.GetUserAsync(User)).Result
     </div>
+    
 }

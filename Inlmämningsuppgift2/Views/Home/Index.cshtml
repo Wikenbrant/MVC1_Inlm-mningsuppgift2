@@ -5,4 +5,18 @@
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <form 
+        asp-controller="Cart" 
+        asp-action="AddItem" 
+        asp-route-foodItemId="1" 
+        asp-route-quantity="2"
+        data-ajax="true"
+        data-ajax-method="POST"
+        data-ajax-mode="replace"
+        data-ajax-update="#cart"
+        >
+        <input type="submit" value="test"/>
+    </form>
+    
+    <vc:cart-detail></vc:cart-detail>
 </div>

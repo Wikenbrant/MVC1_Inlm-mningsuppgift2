@@ -9,9 +9,7 @@ namespace Inlmämningsuppgift2.Services
 {
     public interface ICartService
     {
-        Task<Cart> GetCart();
-        Task<Cart> AddItemToCart(FoodItem item, int quantity);
-        Task<Cart> DeleteItemFromCart(FoodItem foodItem);
-        Task<Cart> ClearCart();
+        Task SetItemInCart(int foodItemId, int quantity);
+        Task ClearCart();
     }
 }

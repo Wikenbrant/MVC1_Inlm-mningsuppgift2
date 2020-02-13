@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Inlmämningsuppgift2.Models.Cart;
 using Inlmämningsuppgift2.Models.Entities;
 using Inlmämningsuppgift2.Models.Requests;
+using Inlmämningsuppgift2.Repository;
 using Inlmämningsuppgift2.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,25 +14,33 @@ namespace Inlmämningsuppgift2.Controllers
     public class CartController : Controller
     {
         private readonly ICartService _cartService;
+        private readonly IRepository<FoodItem> _repository;
 
-        public CartController(ICartService cartService)
+        public CartController(ICartService cartService,IRepository<FoodItem> repository)
         {
             _cartService = cartService;
+            _repository = repository;
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddItem(int foodItemId, int quantity)
+        {
+            await _cartService.SetItemInCart(foodItemId, quantity);
+            return ViewComponent("CartDetail");
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get()=> PartialView("_Cart", await _cartService.GetCart());
+        [HttpPost]
+        public async Task<IActionResult> DeleteItem(int foodItemId)
+        {
+            await _cartService.SetItemInCart(foodItemId, 0);
+            return ViewComponent("CartDetail");
+        }
 
         [HttpPost]
-        public async Task<IActionResult> AddItem(AddItemRequest request) =>
-            PartialView("_Cart", await _cartService.AddItemToCart(request.FoodItem, request.Quantity));
+        public async Task<IActionResult> Clear()
+        {
+            await _cartService.ClearCart();
+            return ViewComponent("CartDetail");
+        }
 
-        [HttpPost]
-        public async Task<IActionResult> DeleteItem(FoodItem item) =>
-            PartialView("_Cart", await _cartService.DeleteItemFromCart(item));
-
-        [HttpPost]
-        public async Task<IActionResult> Clear() =>
-            PartialView("_Cart", await _cartService.ClearCart());
     }
 }

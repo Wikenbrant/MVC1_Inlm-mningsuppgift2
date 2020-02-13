@@ -1,36 +1,31 @@
 ﻿using System.Threading.Tasks;
 using Inlmämningsuppgift2.Models.Cart;
 using Inlmämningsuppgift2.Models.Entities;
+using Inlmämningsuppgift2.Repository;
 
 namespace Inlmämningsuppgift2.Services
 {
     public class CartService : ICartService
     {
         private readonly Cart _cart;
+        private readonly IRepository<FoodItem> _repository;
 
-        public CartService(Cart cart)
+        public CartService(Cart cart,IRepository<FoodItem> repository)
         {
             _cart = cart;
+            _repository = repository;
         }
 
-        public Task<Cart> GetCart()
+        public async Task SetItemInCart(int foodItemId, int quantity)
         {
-           return Task.FromResult(_cart);
+            var foodItem = await _repository.FirstOrDefault(i => i.FoodItemId == foodItemId);
+            if (foodItem != null) _cart.SetLine(foodItem, quantity);
         }
 
-        public async Task<Cart> AddItemToCart(FoodItem item, int quantity)
+        public Task ClearCart()
         {
-           return await _cart.AddItem(quantity, item);
-        }
-
-        public async Task<Cart> DeleteItemFromCart(FoodItem foodItem)
-        {
-            return await _cart.RemoveLine(foodItem);
-        }
-
-        public async Task<Cart> ClearCart()
-        {
-            return await _cart.Clear();
+             _cart.Clear();
+            return Task.CompletedTask;
         }
     }
 }
