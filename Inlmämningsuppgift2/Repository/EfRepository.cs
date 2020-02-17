@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -22,9 +23,25 @@ namespace Inlmämningsuppgift2.Repository
         public Task<T> FirstOrDefault(Expression<Func<T, bool>> predicate)
             => _context.Set<T>().FirstOrDefaultAsync(predicate);
 
+        public async Task<T> FirstOrDefault(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] navigationPropertyPaths)
+        {
+            IQueryable<T> set = _context.Set<T>();
+            foreach (var navigationPropertyPath in navigationPropertyPaths)
+            {
+                set = set.Include(navigationPropertyPath);
+            }
+            return await set.FirstOrDefaultAsync(predicate);
+        }
+
         public async Task Add(T entity)
         {
             await _context.Set<T>().AddAsync(entity);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task Add(IEnumerable<T> entities)
+        {
+            await _context.Set<T>().AddRangeAsync(entities);
             await _context.SaveChangesAsync();
         }
 
@@ -40,13 +57,52 @@ namespace Inlmämningsuppgift2.Repository
             return _context.SaveChangesAsync();
         }
 
+        public Task Remove(T entity, params object[] propertiesToDelete)
+        {
+            foreach (IEnumerable obj in propertiesToDelete)
+            {
+                foreach (var property in obj)
+                {
+                    _context.Remove(property);
+                }
+            }
+            _context.Remove(entity);
+            return _context.SaveChangesAsync();
+        }
+
+        public Task Remove(IEnumerable<T> entities)
+        {
+            _context.Set<T>().RemoveRange(entities);
+            return _context.SaveChangesAsync();
+        }
+        public Task Remove(IEnumerable<T> entities, params object[] propertiesToDelete)
+        {
+            foreach (IEnumerable obj in propertiesToDelete)
+            {
+                foreach (var property in obj)
+                {
+                    _context.Remove(property);
+                }
+            }
+            foreach (var entity in entities)
+            {
+                _context.Remove(entity);
+            }
+            return _context.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<T>> GetAll()
         {
             return await _context.Set<T>().ToListAsync();
         }
-        public async Task<IEnumerable<T>> GetAll(Expression<Func<T, object>> navigationPropertyPath)
+        public async Task<IEnumerable<T>> GetAll(params Expression<Func<T, object>>[] navigationPropertyPaths)
         {
-            return await _context.Set<T>().Include(navigationPropertyPath).ToListAsync();
+            IQueryable<T> set = _context.Set<T>();
+            foreach (var navigationPropertyPath in navigationPropertyPaths)
+            {
+                set = set.Include(navigationPropertyPath);
+            }
+            return await set.ToListAsync();
         }
         public async Task<IEnumerable<T>> GetWhere(Expression<Func<T, bool>> predicate)
         {
@@ -57,5 +113,7 @@ namespace Inlmämningsuppgift2.Repository
 
         public Task<int> CountWhere(Expression<Func<T, bool>> predicate)
             => _context.Set<T>().CountAsync(predicate);
+
+        public Task<bool> Any(Expression<Func<T, bool>> predicate) => _context.Set<T>().AnyAsync(predicate);
     }
 }

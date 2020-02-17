@@ -1,7 +1,9 @@
 ﻿@model RegisterViewModel
 <h2>Registrering</h2>
-
-<form asp-action="Register" method="post">
+@{
+    ViewBag.BackgroundImage = "bg_4.webp";
+}
+<form class="text-white" asp-action="Register" method="post">
     <div class="form-group">
         <label asp-for="Customer.Name"></label>
         <input class="form-control" asp-for="Customer.Name" />
@@ -46,4 +48,4 @@
 
 
 
-<partial name="_ValidationScriptsPartial"/>
+<partial name="_ValidationScriptsPartial" />

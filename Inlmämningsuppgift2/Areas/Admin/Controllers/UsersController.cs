@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Inlmämningsuppgift2.Models.User;
-using Inlmämningsuppgift2.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Inlmämningsuppgift2.Controllers
+namespace Inlmämningsuppgift2.Areas.Admin.Controllers
 {
-    //[Authorize(Roles = "Admin")]
-    public class AdminController : Controller
+    [Area("Admin")]
+    [Authorize(Roles = "Admin")]
+    public class UsersController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AdminController(UserManager<ApplicationUser> userManager,RoleManager<IdentityRole> roleManager)
+        public UsersController(UserManager<ApplicationUser> userManager,RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;

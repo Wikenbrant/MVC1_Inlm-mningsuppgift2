@@ -1,63 +1,51 @@
 ﻿@model CartLine
 
-<tr>
-    <td>
-        <form asp-controller="Cart" asp-action="AddItem" asp-route-foodItemId="@Model.FoodItem.FoodItemId"
-              data-ajax="true"
-              data-ajax-method="POST"
-              data-ajax-mode="replace"
-              data-ajax-update="#cart">
-            <input type="hidden" asp-for="FoodItem.FoodItemId" />
-            <div class="input-group">
-                <span class="text-left">Name: @Model.FoodItem.FoodItemName</span>
+<div class="row border-bottom p-2">
+    <div class="container">
+        <input type="hidden" asp-for="FoodItem.FoodItemId"/>
+        <div class="row">
+            <div class="col-2 text-white">
+                <label asp-for="FoodItem.Name"></label>
             </div>
-            <div class="input-group">
-                <span class="text-left">Price: @Model.FoodItem.Price.ToString("C")</span>
+            <div class="col-10 text-white">
+                @Model.FoodItem.Name
             </div>
+        </div>
+        <div class="row">
+            <div class="col-2 text-white">
+                <label asp-for="FoodItem.Price"></label>
+            </div>
+            <div class="col-10 text-white">
+                <span>@Model.FoodItem.Price.ToString("C")</span>
+            </div>
+        </div>
 
-            <label asp-for="Quantity"></label>
-            <div class="input-group m-2" style="width: 200px;">
-                <div class="input-group-prepend">
-                    <a class="btn"
-                       asp-controller="Cart"
-                       asp-action="AddItem"
-                       asp-route-foodItemId="@Model.FoodItem.FoodItemId"
-                       asp-route-quantity="@(Model.Quantity - 1)"
-                       data-ajax="true"
-                       data-ajax-method="POST"
-                       data-ajax-mode="replace"
-                       data-ajax-update="#cart">
-                        <i class="fa fa-minus"></i>
-                    </a>
-                </div>
-
-                <input class="form-control" asp-for="Quantity" />
-
-                <div class="input-group-append">
-                    <a class="btn"
-                       asp-controller="Cart"
-                       asp-action="AddItem"
-                       asp-route-foodItemId="@Model.FoodItem.FoodItemId"
-                       asp-route-quantity="@(Model.Quantity + 1)"
-                       data-ajax="true"
-                       data-ajax-method="POST"
-                       data-ajax-mode="replace"
-                       data-ajax-update="#cart">
-                        <i class="fa fa-plus"></i>
-                    </a>
-                    <a class="btn btn-danger"
-                       asp-controller="Cart"
-                       asp-action="DeleteItem"
-                       asp-route-foodItemId="@Model.FoodItem.FoodItemId"
-                       data-ajax="true"
-                       data-ajax-method="POST"
-                       data-ajax-mode="replace"
-                       data-ajax-update="#cart">
-                        <i class="fa fa-trash"></i>
-                    </a>
+        <div class="row">
+            <div class="col-2 text-white">
+                <label asp-for="Quantity"></label>
+            </div>
+            <div class="col-10">
+                <div class="container">
+                    <div class="input-group">
+                        <div class="col-2 input-group-prepend text-white">
+                            <a href="#" class="btn" onclick="AjaxPost('@(Url.Action("DeleteOneItem", "Cart"))', @Model.FoodItem.FoodItemId)">
+                                <i class="fa fa-minus text-white"></i>
+                            </a>
+                        </div>
+                        <div class="col-4 text-white">
+                            <input id="quantityInput" onchange="AjaxPost('@(Url.Action("AddItem", "Cart"))', @Model.FoodItem.FoodItemId, ($(this).val()))" class="form-control" asp-for="Quantity" />
+                        </div>
+                        <div class="col-4 input-group-append text-white">
+                            <a href="#" class="btn" onclick="AjaxPost('@(Url.Action("AddOneItem", "Cart"))', @Model.FoodItem.FoodItemId)">
+                                <i class="fa fa-plus text-white"></i>
+                            </a>
+                            <a href="#" class="btn btn-danger" onclick="AjaxPost('@(Url.Action("DeleteItem", "Cart"))', @Model.FoodItem.FoodItemId)">
+                                <i class="fa fa-trash text-white"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-        </form>
-    </td>
-</tr>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+﻿@using System.Collections
+@using Inlmämningsuppgift2.Repository
+@inject IRepository<Product> ProductRepository
+@model IEnumerable<FoodItem>
+@{
+    ViewBag.BackgroundImage = "bg_4.webp";
+    var pics = new List<string> {"pizza-1.webp","pizza-4.jpg"};
+    var rnd = new Random();
+}
+<div class="container-fluid">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-6">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-6">
+                            <img src="~/img/@(pics[rnd.Next(0, pics.Count)])" class="img-thumbnail border-warning bg-transparent" style="width: 200px; height: 200px;"/>
+                        </div>
+                        <div class="col-6">
+                            <div class="container-fluid" style="min-height: 100%;">
+                                <div class="row">
+                                    <div class="container">
+                                        <div class="row">
+                                            <h3 class="text-white">@item.Name</h3>
+                                        </div>
+                                        <div class="row">
+                                            <p class="text-white">@item.Description</p>
+                                        </div>
+                                        <div class="row">
+                                            @foreach (var product in await ProductRepository.GetWhere(p => item.FoodItemProducts.Select(i => i.ProductId).Contains(p.ProductId)))
+                                            {
+                                            <p class="text-warning small">&nbsp;|&nbsp;</p><p class="text-secondary small text-center">@($" {product.ProductNamn} ")</p>
+                                            }
+                                        <p class="text-warning small">&nbsp;|&nbsp; </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-end flex-grow-1">
+                                    <div class="col-6 ">
+                                        <p class="text-warning">@item.Price.ToString("C0")</p>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <a href="#" class="btn btn-lg btn-outline-light" onclick="AjaxPost('@(Url.Action("AddOneItem", "Cart"))', @item.FoodItemId)">
+                                            Order
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

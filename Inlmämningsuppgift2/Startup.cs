@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Inlmämningsuppgift2.Areas.Admin.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -13,6 +14,8 @@ using Inlmämningsuppgift2.Models.Cart;
 using Inlmämningsuppgift2.Models.User;
 using Inlmämningsuppgift2.Repository;
 using Inlmämningsuppgift2.Services;
+using Inlmämningsuppgift2.Services.Account;
+using Inlmämningsuppgift2.Services.Cart;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -47,8 +50,12 @@ namespace Inlmämningsuppgift2
 
             services.AddScoped(SessionCart.GetCart);
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
-            
+
+            services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<ICartService, CartService>();
+            services.AddScoped<IFoodItemService, FoodItemService>();
+            services.AddScoped<IProductService,ProductService>();
+            services.AddScoped<IOrderService, OrderService>();
 
             services.AddAuthentication();
             services.AddAuthorization();
@@ -56,8 +63,9 @@ namespace Inlmämningsuppgift2
             services.AddMemoryCache();
             services.AddSession();
             services.AddControllersWithViews();
+            services.AddHttpContextAccessor();
 
-            services.AddScoped<IAccountService, AccountService>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -84,9 +92,14 @@ namespace Inlmämningsuppgift2
             app.UseSession();
             app.UseEndpoints(endpoints =>
             {
+                
+                endpoints.MapControllerRoute(
+                    name: "AdminArea",
+                    pattern: "{area:exists}/{controller=FoodItems}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
             });
         }
     }

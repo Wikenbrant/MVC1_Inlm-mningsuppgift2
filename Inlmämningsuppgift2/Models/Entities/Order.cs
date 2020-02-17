@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Inlmämningsuppgift2.Models.Entities
 {
@@ -11,6 +12,7 @@ namespace Inlmämningsuppgift2.Models.Entities
         }
 
         public int OrderId { get; set; }
+        [DataType(DataType.DateTime)]
         public DateTime OrderDate { get; set; }
         public int TotalAmount { get; set; }
         public bool Delivered { get; set; }

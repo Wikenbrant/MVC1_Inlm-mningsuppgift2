@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Inlmämningsuppgift2.Models;
 using Inlmämningsuppgift2.Models.Entities;
 using Inlmämningsuppgift2.Models.User;
+using Inlmämningsuppgift2.Models.ViewModels;
 using Inlmämningsuppgift2.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -28,9 +29,10 @@ namespace Inlmämningsuppgift2.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Pizzas()
+        public async Task<IActionResult> Menu()
         {
-            return View(await _repository.GetAll(i => i.FoodItemProducts));
+            return View(await _repository.GetAll(i => i.FoodItemProducts,i=>i.FoodItemType));
+
         }
 
         public IActionResult Privacy()

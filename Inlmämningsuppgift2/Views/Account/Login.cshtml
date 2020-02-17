@@ -1,19 +1,21 @@
 ﻿@model LoginViewModel
+@{
+    ViewBag.BackgroundImage = "bg_4.webp";
+}
+<form class="text-white" asp-action="Login" method="post" asp-antiforgery="true">
+    <input type="hidden" asp-for="ReturnUrl" />
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input class="form-control" asp-for="Email" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <input class="form-control" asp-for="Password" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input type="submit" class="btn btn-primary" value="Login" />
+</form>
 
-    <form asp-action="Login" method="post" asp-antiforgery="true">
-        <input type="hidden" asp-for="ReturnUrl" />
-        <div class="form-group">
-            <label asp-for="Email"></label>
-            <input class="form-control" asp-for="Email" />
-            <span asp-validation-for="Email" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Password"></label>
-            <input class="form-control" asp-for="Password" />
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
-        <div asp-validation-summary="All" class="text-danger"></div>
-        <input type="submit" class="btn btn-primary" value="Login" />
-    </form>
-
-<partial name="_ValidationScriptsPartial"/>
+<partial name="_ValidationScriptsPartial" />

@@ -134,7 +134,7 @@ namespace Inlmämningsuppgift2.Data
                     .HasMaxLength(200)
                     .IsUnicode(false);
 
-                entity.Property(e => e.FoodItemName)
+                entity.Property(e => e.Name)
                     .HasColumnName("MatrattNamn")
                     .IsRequired()
                     .HasMaxLength(50)

@@ -5,6 +5,7 @@ using Inlmämningsuppgift2.Models.User;
 using Inlmämningsuppgift2.Models.ViewModels;
 using Inlmämningsuppgift2.Repository;
 using Inlmämningsuppgift2.Services;
+using Inlmämningsuppgift2.Services.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

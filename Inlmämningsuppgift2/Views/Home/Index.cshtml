@@ -1,22 +1,8 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewBag.BackgroundImage = "3585.jpg";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <form 
-        asp-controller="Cart" 
-        asp-action="AddItem" 
-        asp-route-foodItemId="1" 
-        asp-route-quantity="2"
-        data-ajax="true"
-        data-ajax-method="POST"
-        data-ajax-mode="replace"
-        data-ajax-update="#cart"
-        >
-        <input type="submit" value="test"/>
-    </form>
-    
-    
+<div class="text-center bg-dark-alpha">
+    <h1 class="display-4 text-warning">Welcome to Tamasos</h1>
+    <p class="text-light">The best pizza in town</p>
+    <a asp-action="Menu" class="btn btn-outline-light text-light mb-3">View Menu</a>
 </div>

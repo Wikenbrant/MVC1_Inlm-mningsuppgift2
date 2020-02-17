@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Inlmämningsuppgift2.Models.Entities
 {
@@ -11,8 +12,11 @@ namespace Inlmämningsuppgift2.Models.Entities
         }
 
         public int FoodItemId { get; set; }
-        public string FoodItemName { get; set; }
+        [Required]
+        public string Name { get; set; }
+        [Required]
         public string Description { get; set; }
+        [Required]
         public int Price { get; set; }
         public int FoodItemTypeId { get; set; }
 

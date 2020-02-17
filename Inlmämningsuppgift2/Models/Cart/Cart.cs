@@ -7,17 +7,19 @@ using System.Threading.Tasks;
 using Inlmämningsuppgift2.Models.Entities;
 using Inlmämningsuppgift2.Models.User;
 using Inlmämningsuppgift2.Repository;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace Inlmämningsuppgift2.Models.Cart
 {
     public class Cart
     {
-
         public Cart()
         {
-            CartLines = new ConcurrentBag<CartLine>();
+            CartLines = new List<CartLine>();
         }
-        public ConcurrentBag<CartLine> CartLines { get; set; }
+        public List< CartLine> CartLines { get; set; }
 
         public virtual void SetLine(FoodItem item,int quantity=1)
         {
@@ -34,35 +36,58 @@ namespace Inlmämningsuppgift2.Models.Cart
         }
 
         public virtual void Clear()
+
         {
             CartLines.Clear();
         }
 
-        public int CalcTotal(ApplicationUser user)
+        public int CheckOut(ApplicationUser user)
         {
-            var numberOfFreePizzas = 0;
-            if (user.CustomerType != CustomerType.Premium) return Sum;
-            if (user.BonusPoints >= 100) numberOfFreePizzas = Convert.ToInt32(Math.Floor(user.BonusPoints / 100m));
-            user.BonusPoints += (CartLines.Sum(i => i.Quantity) * 10)-(numberOfFreePizzas*100);
-            if (CartLines.Sum(i => i.Quantity) < 3 && numberOfFreePizzas == 0) return Sum;
-            var sum = 0;
+            if (user.CustomerType == CustomerType.Premium) 
+                user.BonusPoints += (CartLines.Sum(i => i.Quantity) * 10) - (NumberOfFreePizzas(user) * 100);
+
+            return Total(user);
+        }
+
+        public int Total(ApplicationUser user)
+        {
+            return Sum-Discount(user);
+        }
+        public int Discount(ApplicationUser user)
+        {
+            if (user.CustomerType != CustomerType.Premium) return 0;
+            if (CartLines.Sum(i => i.Quantity) < 3) return 0;
+            var numberOfFreePizzas = NumberOfFreePizzas(user);
+            var discount = 0;
             foreach (var line in CartLines)
             {
                 if (line.Quantity >= numberOfFreePizzas)
                 {
-                    sum += line.FoodItem.Price * (line.Quantity - numberOfFreePizzas);
-                    numberOfFreePizzas = 0;
+                    if (numberOfFreePizzas==0)
+                    {
+                        discount += Convert.ToInt32(line.FoodItem.Price * line.Quantity * 0.2m);
+                    }
+                    else
+                    {
+                        discount += line.FoodItem.Price * numberOfFreePizzas;
+                        numberOfFreePizzas = 0;
+                    }
                 }
                 else
                 {
-                    sum += line.FoodItem.Price * (line.Quantity - numberOfFreePizzas);
+                    discount += line.FoodItem.Price * line.Quantity;
                     numberOfFreePizzas -= line.Quantity;
-                    if (numberOfFreePizzas < 0) numberOfFreePizzas = 0;
+                    if (numberOfFreePizzas <= 0) numberOfFreePizzas = 0;
                 }
             }
-            return sum;
+            return discount;
         }
 
-        private int Sum => CartLines.Sum(l => l.FoodItem.Price * l.Quantity);
+        public int Sum => CartLines.Sum(l => l.FoodItem.Price * l.Quantity);
+
+        public int NumberOfFreePizzas(ApplicationUser user)
+        {
+           return user.BonusPoints >= 100 ? Convert.ToInt32(Math.Floor(user.BonusPoints / 100m)) : 0;
+        }
     }
 }

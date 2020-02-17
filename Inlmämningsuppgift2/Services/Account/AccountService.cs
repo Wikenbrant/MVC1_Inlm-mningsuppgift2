@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Inlmämningsuppgift2.Models.Entities;
 using Inlmämningsuppgift2.Models.User;
@@ -9,7 +7,7 @@ using Inlmämningsuppgift2.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Inlmämningsuppgift2.Services
+namespace Inlmämningsuppgift2.Services.Account
 {
     public class AccountService : IAccountService
     {

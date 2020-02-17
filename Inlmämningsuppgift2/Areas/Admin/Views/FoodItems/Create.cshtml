@@ -1,0 +1,40 @@
+﻿@model CreateFoodItemViewModel
+
+<div class="row">
+    <div class="col-md-4 text-white">
+        <form asp-action="Create" class="text-white">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" ></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" ></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" ></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SelectedFoodItemTypeId" ></label>
+                <select asp-for="SelectedFoodItemTypeId" class="form-control" asp-items="Model.AvailableFoodItemType"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="SelectedProductsIds"></label>
+                <select multiple="multiple" asp-for="SelectedProductsIds" class="form-control MultiSelect" asp-items="Model.AvailableProducts" size="@Model.AvailableProducts.Count()"></select>
+                <span asp-validation-for="SelectedProductsIds" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="text-white">
+    <a asp-action="Index">Back to List</a>
+</div>

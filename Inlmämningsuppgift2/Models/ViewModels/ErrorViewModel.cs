@@ -1,4 +1,4 @@
-namespace Inlmämningsuppgift2.Models.Entities
+namespace Inlmämningsuppgift2.Models.ViewModels
 {
     public class ErrorViewModel
     {

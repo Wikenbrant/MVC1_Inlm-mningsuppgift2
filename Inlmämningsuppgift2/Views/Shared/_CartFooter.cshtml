@@ -1,0 +1,39 @@
+﻿@model Cart
+@inject UserManager<ApplicationUser> UserManager
+<div class="container text-white">
+    <div class="row">
+        <div class="col-6 position-relative">
+            <form class="position-absolute" style="bottom: 0;left: 0;" asp-controller="Cart" asp-action="CheckOut" method="post">
+                <input disabled="@(Model.CartLines.Count > 0 ? null : "disabled")" class="btn btn-success" type="submit" value="Checkout" />
+            </form>
+        </div>
+        <div class="col-6">
+            <div class="container">
+                <div class="row">
+                    <div class="col-6">
+                        <label asp-for="Sum"></label>
+                    </div>
+                    <div class="col-6">
+                        <span class="text-right">@Model.Sum.ToString("C0")</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <label>Discount: </label>
+                    </div>
+                    <div class="col-6">
+                        <span class="text-right">@Model.Discount(await UserManager.GetUserAsync(User)).ToString("C0")</span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label>Total: </label>
+                    </div>
+                    <div class="col-6">
+                        <span class="text-right">@Model.Total(await UserManager.GetUserAsync(User)).ToString("C0")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

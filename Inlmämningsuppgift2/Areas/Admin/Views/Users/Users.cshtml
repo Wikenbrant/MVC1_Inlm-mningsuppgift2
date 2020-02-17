@@ -6,11 +6,11 @@
 
 @foreach (var role in await RoleManager.Roles.ToListAsync())
 {
-    <table class="table">
+    <table class="table text-white">
         <thead>
-            <tr class="table">
-                <td colspan="@(role.Name.Equals("Customer",StringComparison.CurrentCultureIgnoreCase)?"7":"4")">Role: @role.Name</td>
-            </tr>
+        <tr>
+            <td colspan="@(role.Name.Equals("Customer",StringComparison.CurrentCultureIgnoreCase)?"7":"4")">Role: @role.Name</td>
+        </tr>
         <tr>
             <td>UserId</td>
             <td>Name</td>
@@ -34,14 +34,14 @@
                 {
                     <td>@user.CustomerId</td>
                     <td>
-                        <div class="btn-group">
-                            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div class="btn-group text-white">
+                            <button type="button" class="btn dropdown-toggle text-white" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 @user.CustomerType
                             </button>
-                            <div class="dropdown-menu">
+                            <div class="dropdown-menu bg-dark">
                                 @foreach (var customerType in Enum.GetNames(typeof(CustomerType)))
                                 {
-                                    <form asp-action="ChangeCustomerType" asp-route-userId="@user.Id" asp-route-customerType="@Enum.Parse(typeof(CustomerType),customerType)" method="post">
+                                    <form class="text-white" asp-action="ChangeCustomerType" asp-route-userId="@user.Id" asp-route-customerType="@Enum.Parse(typeof(CustomerType),customerType)" method="post">
                                         <input class="dropdown-item @(user.CustomerType.ToString().Equals(customerType, StringComparison.InvariantCultureIgnoreCase) ? "active" : "")" value="@customerType"  type="submit"/>
                                     </form>
                                 }

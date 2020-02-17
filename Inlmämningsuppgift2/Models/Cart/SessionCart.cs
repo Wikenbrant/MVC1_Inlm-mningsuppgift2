@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Inlmämningsuppgift2.Infrastructure;
 using Inlmämningsuppgift2.Infrastructure.Extensions;
 using Inlmämningsuppgift2.Models.Entities;
+using Inlmämningsuppgift2.Models.User;
 using Inlmämningsuppgift2.Repository;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 

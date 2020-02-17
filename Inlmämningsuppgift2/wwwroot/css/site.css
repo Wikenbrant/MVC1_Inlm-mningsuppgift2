@@ -1,6 +1,5 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
-
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -59,8 +58,9 @@ html {
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    height: 107vh;
 }
 .footer {
   position: absolute;
@@ -68,4 +68,22 @@ body {
   width: 100%;
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
+}
+.modal-backdrop {
+    opacity: 0 !important;
+}
+.bg-dark {
+    background-color: #121618 !important;
+}
+
+.bg-dark-alpha {
+    background-color: rgba(18,22,24,0.4) !important;
+}
+.container .dropdown .dropdown-menu a:hover {
+    color: #fff;
+    background-color: #121618;
+}
+.container .dropdown .dropdown-menu .btn:hover {
+    color: #fff;
+    background-color: #121618;
 }

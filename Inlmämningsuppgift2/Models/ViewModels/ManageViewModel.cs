@@ -14,12 +14,10 @@ namespace Inlmämningsuppgift2.Models.ViewModels
 
         public bool IsAdmin { get; set; }
 
-        [Required]
         [UIHint("password")]
         [DisplayName("Nuvarande Lösenord")]
         public string Password { get; set; }
 
-        [Required]
         [UIHint("password")]
         [DisplayName("Nya Lösenord")]
         public string NewPassword { get; set; }

@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Product>
+
+<p class="text-white">
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table text-white">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductNamn)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var product in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => product.ProductNamn)
+            </td>
+            <td>
+                <a asp-action="Delete" asp-route-id="@product.ProductId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
